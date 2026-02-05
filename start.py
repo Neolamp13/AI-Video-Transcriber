@@ -57,20 +57,25 @@ def check_ffmpeg():
 def setup_environment():
     """设置环境变量"""
     # 设置OpenAI配置
-    if not os.getenv("OPENAI_API_KEY"):
-        print("⚠️  警告: 未设置OPENAI_API_KEY环境变量")
-        print("请设置环境变量: export OPENAI_API_KEY=your_api_key_here")
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key or len(api_key) < 10:
+        print("⚠️  警告: 未设置有效的OPENAI_API_KEY环境变量")
+        print("请设置环境变量: export OPENAI_API_KEY=sk-proj-your-key-here")
         return False
     
     print("✅ 已设置OpenAI API Key")
     
-    if not os.getenv("OPENAI_BASE_URL"):
-        os.environ["OPENAI_BASE_URL"] = "https://oneapi.basevec.com/v1"
-        print("✅ 已设置OpenAI Base URL")
+    # NO HARDCODED PROXY - use official OpenAI by default
+    base_url = os.getenv("OPENAI_BASE_URL")
+    if not base_url:
+        print("ℹ️  使用官方OpenAI API (api.openai.com)")
+    else:
+        print(f"ℹ️  使用自定义端点: {base_url}")
     
-    # 设置其他默认配置
+    # Cloud-friendly defaults
     if not os.getenv("WHISPER_MODEL_SIZE"):
-        os.environ["WHISPER_MODEL_SIZE"] = "base"
+        os.environ["WHISPER_MODEL_SIZE"] = "tiny"  # Fast, low memory
+        print("ℹ️  设置默认Whisper模型: tiny (适合云部署)")
     
     print("🔑 OpenAI API已配置，摘要功能可用")
     return True
