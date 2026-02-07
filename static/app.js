@@ -243,7 +243,7 @@ class VideoTranscriber {
             formData.append('url', videoUrl);
             formData.append('summary_language', summaryLanguage);
             
-            const response = await fetch(`${this.apiBase}/process-video`, {
+            const response = await fetch(`${this.apiBase}/api/process-video`, {
                 method: 'POST',
                 body: formData
             });
