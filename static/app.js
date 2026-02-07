@@ -279,8 +279,9 @@ class VideoTranscriber {
         console.log('[DEBUG] 🔄 启动SSE连接，Task ID:', this.currentTaskId);
         
         // 创建EventSource连接
-        this.eventSource = new EventSource(`${this.apiBase}/task-stream/${this.currentTaskId}`);
-        
+        //this.eventSource = new EventSource(`${this.apiBase}/task-stream/${this.currentTaskId}`);
+        this.eventSource = new EventSource(`${this.apiBase}/events/${this.currentTaskId}`
+                                           
         this.eventSource.onmessage = (event) => {
             try {
                 const task = JSON.parse(event.data);
